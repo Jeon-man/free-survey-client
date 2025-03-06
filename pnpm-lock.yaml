@@ -11,6 +11,9 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: ^1.1.2
     version: 1.1.2(@types/react@19.0.10)(react@19.0.0)
+  '@tanstack/react-query':
+    specifier: ^5.67.1
+    version: 5.67.1(react@19.0.0)
   '@types/axios':
     specifier: ^0.14.4
     version: 0.14.4
@@ -1100,6 +1103,19 @@ packages:
       postcss: 8.5.3
       tailwindcss: 4.0.10
     dev: true
+
+  /@tanstack/query-core@5.67.1:
+    resolution: {integrity: sha512-AkFmuukVejyqVIjEQoFhLb3q+xHl7JG8G9cANWTMe3s8iKzD9j1VBSYXgCjy6vm6xM8cUCR9zP2yqWxY9pTWOA==}
+    dev: false
+
+  /@tanstack/react-query@5.67.1(react@19.0.0):
+    resolution: {integrity: sha512-fH5u4JLwB6A+wLFdi8wWBWAYoJV5deYif2OveJ26ktAWjU499uvVFS1wPWnyEyq5LvZX1MZInvv9QRaIZANRaQ==}
+    peerDependencies:
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-core': 5.67.1
+      react: 19.0.0
+    dev: false
 
   /@types/axios@0.14.4:
     resolution: {integrity: sha512-9JgOaunvQdsQ/qW2OPmE5+hCeUB52lQSolecrFrthct55QekhmXEwT203s20RL+UHtCQc15y3VXpby9E7Kkh/g==}
