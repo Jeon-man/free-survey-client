@@ -35,7 +35,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <div className="flex h-full">{children}</div>
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

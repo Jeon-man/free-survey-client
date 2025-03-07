@@ -4,11 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -22,6 +31,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "./ui/button";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -43,17 +53,14 @@ export function CreateSurveyForm() {
   }
 
   return (
-    <Card>
+    <Card className="w-full max-w-3xl items-center">
       <CardHeader>
         <CardTitle>Create Survey</CardTitle>
-        <CardDescription>
-          When you create a URL, you need to save it somewhere.
-        </CardDescription>
       </CardHeader>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onCreateSurvey)}
-          className="space-y-8"
+          className="space-y-4 md:space-y-8"
         >
           <CardContent>
             <FormField
@@ -63,7 +70,11 @@ export function CreateSurveyForm() {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="2025 Preference research" {...field} />
+                    <Input
+                      placeholder="2025 Preference research"
+                      {...field}
+                      className="w-full"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,7 +82,25 @@ export function CreateSurveyForm() {
             />
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button type="submit">create</Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button className="w-full md:w-auto">Create Survey</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{`Do you want to make it ${form.getValues(
+                    "title"
+                  )}?`}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    When you create a URL, you need to save it somewhere.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction type="submit">Create</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardFooter>
         </form>
       </Form>
