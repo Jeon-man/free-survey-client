@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function CreateSurveyForm() {
   const [title, setTitle] = useState<string>("");
@@ -28,7 +29,7 @@ export function CreateSurveyForm() {
 
   function onCreateSurvey() {
     if (title.length <= 2) {
-      alert("Title must be at least 2 characters long.");
+      toast.error("Title must be at least 2 characters long.");
     }
   }
 
