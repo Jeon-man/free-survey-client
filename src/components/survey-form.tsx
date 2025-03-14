@@ -22,15 +22,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
+import useCreateSurvey from "@/hooks/survey/useCreateSurvey";
+import { useRouter } from "next/navigation";
 
 export function CreateSurveyForm() {
   const [title, setTitle] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  function onCreateSurvey() {
-    if (title.length <= 2) {
+  const mutation = useCreateSurvey();
+  const router = useRouter();
+
+  async function onCreateSurvey() {
+    if (title.length < 2) {
       toast.error("Title must be at least 2 characters long.");
+      return;
     }
+
+    const { id } = await mutation.mutateAsync({ title });
+
+    router.push(`/surveys/${id}/edit`);
   }
 
   return (
