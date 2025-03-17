@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 const api = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,6 +24,7 @@ export const createRequest = async <T extends object, R extends object>(
   config?: AxiosRequestConfig
 ): Promise<AxiosResponse<R>> => {
   try {
+    console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
     const response = await api.request<R>({
       method,
       url: path,
