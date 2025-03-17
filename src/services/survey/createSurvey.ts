@@ -3,6 +3,7 @@ import { Survey } from "@/types/survey.types";
 
 export interface PostSurveyRequest {
   title: string;
+  password: string;
   description?: string;
 }
 

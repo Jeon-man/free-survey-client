@@ -24,9 +24,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useCreateSurvey from "@/hooks/survey/useCreateSurvey";
 import { useRouter } from "next/navigation";
+import { PasswordInput } from "./ui/password-input";
 
 export function CreateSurveyForm() {
   const [title, setTitle] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   const [open, setOpen] = useState<boolean>(false);
 
   const mutation = useCreateSurvey();
@@ -38,7 +41,12 @@ export function CreateSurveyForm() {
       return;
     }
 
-    const { id } = await mutation.mutateAsync({ title });
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+
+    const { id } = await mutation.mutateAsync({ title, password });
 
     router.push(`/surveys/${id}/edit`);
   }
@@ -48,10 +56,15 @@ export function CreateSurveyForm() {
       <CardHeader>
         <CardTitle>Create Survey</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-2">
         <Input
           placeholder="title"
           onChange={(event) => setTitle(event.target.value)}
+        />
+        <PasswordInput
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </CardContent>
       <CardFooter className="flex justify-end">
