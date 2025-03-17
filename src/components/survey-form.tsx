@@ -48,7 +48,7 @@ export function CreateSurveyForm() {
 
     const { id } = await mutation.mutateAsync({ title, password });
 
-    router.push(`/surveys/${id}/edit`);
+    router.push(`/survey/${id}/edit`);
   }
 
   return (
