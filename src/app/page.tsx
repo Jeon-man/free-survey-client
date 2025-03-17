@@ -1,5 +1,5 @@
 import { ModeToggle } from "@/components/common/theme-toggle";
-import { CreateSurveyForm } from "@/components/survey-form";
+import { CreateSurveyForm } from "@/components/survey/survey-form";
 
 export default function Home() {
   return (

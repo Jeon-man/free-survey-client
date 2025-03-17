@@ -19,12 +19,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "./ui/button";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import useCreateSurvey from "@/hooks/survey/useCreateSurvey";
 import { useRouter } from "next/navigation";
-import { PasswordInput } from "./ui/password-input";
 
 export function CreateSurveyForm() {
   const [title, setTitle] = useState<string>("");
