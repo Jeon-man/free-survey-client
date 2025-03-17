@@ -16,7 +16,7 @@ export default function Page({
     async function fetchSurvey() {
       const { surveyId } = await params;
 
-      setSurvey({ id: surveyId, title: "Survey title" });
+      setSurvey({ id: surveyId, title: "Survey title", password: "password" });
     }
 
     fetchSurvey();
