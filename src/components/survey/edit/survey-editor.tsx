@@ -38,7 +38,7 @@ export function SurveyEditor({ surveyId }: SurveyEditorProps) {
                   <Label htmlFor="name">description</Label>
                   <Input
                     id="description"
-                    value={data.description}
+                    value={data.description || ""}
                     disabled={!isEditing}
                   />
                 </div>
