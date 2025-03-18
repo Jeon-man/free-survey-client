@@ -25,30 +25,39 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useCreateSurvey from "@/hooks/survey/useCreateSurvey";
 import { useRouter } from "next/navigation";
+import { Progress } from "@/components/ui/progress";
 
 export function CreateSurveyForm() {
   const [title, setTitle] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const [progress, setProgress] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
 
   const mutation = useCreateSurvey();
   const router = useRouter();
 
   async function onCreateSurvey() {
-    if (title.length < 2) {
-      toast.error("Title must be at least 2 characters long.");
-      return;
-    }
+    setProgress(33);
 
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters long.");
-      return;
-    }
+    setTimeout(() => {
+      setProgress(90);
+    }, 500);
 
-    const { id } = await mutation.mutateAsync({ title, password });
-
-    router.push(`/survey/${id}/edit`);
+    mutation.mutate(
+      { title, password },
+      {
+        onSuccess(data) {
+          toast.success("Survey created successfully.");
+          router.push(`/survey/${data.id}/edit`);
+        },
+        onError(error) {
+          toast.error(error.message);
+        },
+        onSettled() {
+          setProgress(100);
+        },
+      }
+    );
   }
 
   return (
@@ -64,17 +73,28 @@ export function CreateSurveyForm() {
         <PasswordInput
           placeholder="password"
           value={password}
+          disabled={false}
           onChange={(e) => setPassword(e.target.value)}
         />
       </CardContent>
       <CardFooter className="flex justify-end">
-        <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialog open={open}>
           <AlertDialogTrigger
             asChild
             onClick={() => {
-              if (title.length >= 2) {
-                setOpen(true);
+              if (title.length < 2) {
+                toast.error("Title must be at least 2 characters long.");
+                setOpen(false);
+                return;
               }
+
+              if (password.length < 6) {
+                toast.error("Password must be at least 6 characters long.");
+                setOpen(false);
+                return;
+              }
+
+              setOpen(true);
             }}
           >
             <Button className="w-full md:w-auto">Create Survey</Button>
@@ -87,10 +107,18 @@ export function CreateSurveyForm() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onCreateSurvey}>
-                Create
-              </AlertDialogAction>
+              {mutation.isPending ? (
+                <Progress value={progress} />
+              ) : (
+                <>
+                  <AlertDialogCancel onClick={() => setOpen(false)}>
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction onClick={onCreateSurvey}>
+                    Create
+                  </AlertDialogAction>
+                </>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
