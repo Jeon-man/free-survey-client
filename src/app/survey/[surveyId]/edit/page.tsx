@@ -1,13 +1,13 @@
 import { SurveyEditor } from "@/components/survey/edit/survey-editor";
 
-export default function Page({
+export default async function Page({
   params,
 }: {
-  params: {
+  params: Promise<{
     surveyId: string;
-  };
+  }>;
 }) {
-  const { surveyId } = params;
+  const { surveyId } = await params;
 
   return (
     <div className="flex flex-1 justify-center pt-10">
