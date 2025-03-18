@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import useGetSurvey from "@/hooks/survey/useGetSurvey";
 import { useState } from "react";
 
@@ -24,7 +25,7 @@ export function SurveyEditor({ surveyId }: SurveyEditorProps) {
 
   return (
     <div className="w-full max-w-3xl">
-      {!isLoading && data && (
+      {!isLoading && data ? (
         <Card className="w-full max-w-3xl ">
           <CardHeader>
             <CardTitle>Edit Survey</CardTitle>
@@ -58,6 +59,19 @@ export function SurveyEditor({ surveyId }: SurveyEditorProps) {
                 Save
               </Button>
             )}
+          </CardFooter>
+        </Card>
+      ) : (
+        <Card className="w-full max-w-3xl">
+          <CardHeader>
+            <Skeleton className="h-8 w-1/2" />
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-full" />
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Skeleton className="h-10 w-24" />
           </CardFooter>
         </Card>
       )}
