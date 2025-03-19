@@ -12,21 +12,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetSurvey from "@/hooks/survey/useGetSurvey";
+import { Question } from "@/types/question.types";
 import { useState } from "react";
+import { QuestionEditor } from "./question-editor";
 
 interface SurveyEditorProps {
   surveyId: string;
 }
 
 export function SurveyEditor({ surveyId }: SurveyEditorProps) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [questions, setQuestions] = useState<Question[]>([]);
+
   const { isLoading, data } = useGetSurvey(surveyId);
 
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  function deleteQuestion(index: number) {
+    setQuestions(questions.filter((_, i) => i !== index));
+  }
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="w-full max-w-3xl space-y-2.5">
       {!isLoading && data ? (
-        <Card className="w-full max-w-3xl ">
+        <Card className="w-full max-w-3xl">
           <CardHeader>
             <CardTitle>Edit Survey</CardTitle>
           </CardHeader>
@@ -75,6 +82,32 @@ export function SurveyEditor({ surveyId }: SurveyEditorProps) {
           </CardFooter>
         </Card>
       )}
+      {!isLoading &&
+        questions.map((question, index) => (
+          <QuestionEditor
+            key={index}
+            currentQuestion={{ ...question, index }}
+            deleteQuestion={deleteQuestion}
+          />
+        ))}
+      <div>
+        <Button
+          onClick={() =>
+            setQuestions([
+              ...questions,
+              {
+                title: "",
+                type: "objective",
+                order: questions.length + 1,
+                options: [{ text: "1" }],
+              },
+            ])
+          }
+          color="green"
+        >
+          Add Question
+        </Button>
+      </div>
     </div>
   );
 }
